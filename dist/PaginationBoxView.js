@@ -60,9 +60,13 @@ var PaginationBoxView = function (_Component) {
 
     _this.handlePageSelected = function (selected, evt) {
       evt.preventDefault ? evt.preventDefault() : evt.returnValue = false;
-
+      if (typeof _this.props.beforePageChange !== "undefined" && typeof _this.props.beforePageChange === "function") {
+        _this.props.beforePageChange({ selected: selected });
+      }
       if (_this.state.selected === selected) return;
-
+      if (_this.props.disableNavigation !== "undefined" && _this.props.disableNavigation === true) {
+        return;
+      }
       _this.setState({ selected: selected });
 
       // Call the callback with the new selected item:
@@ -320,9 +324,11 @@ PaginationBoxView.propTypes = {
   nextLabel: _propTypes2.default.node,
   breakLabel: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.node]),
   hrefBuilder: _propTypes2.default.func,
+  beforePageChange: _propTypes2.default.func,
   onPageChange: _propTypes2.default.func,
   initialPage: _propTypes2.default.number,
   forcePage: _propTypes2.default.number,
+  disableNavigation: _propTypes2.default.bool,
   disableInitialCallback: _propTypes2.default.bool,
   containerClassName: _propTypes2.default.string,
   pageClassName: _propTypes2.default.string,
