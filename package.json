@@ -1,6 +1,6 @@
 {
   "name": "rmi-react-paginate",
-  "version": ".1",
+  "version": "0.1",
   "description": "A ReactJS component that creates a pagination. This package is forked from https://github.com/AdeleD/react-paginate",
   "main": "./dist/index.js",
   "repository": {
