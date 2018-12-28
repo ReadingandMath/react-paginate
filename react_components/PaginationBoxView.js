@@ -18,9 +18,11 @@ export default class PaginationBoxView extends Component {
                               PropTypes.node,
                             ]),
     hrefBuilder           : PropTypes.func,
+    beforePageChange      : PropTypes.func,
     onPageChange          : PropTypes.func,
     initialPage           : PropTypes.number,
     forcePage             : PropTypes.number,
+    disableNavigation     : PropTypes.bool,
     disableInitialCallback: PropTypes.bool,
     containerClassName    : PropTypes.string,
     pageClassName         : PropTypes.string,
@@ -93,9 +95,15 @@ export default class PaginationBoxView extends Component {
 
   handlePageSelected = (selected, evt) => {
     evt.preventDefault ? evt.preventDefault() : (evt.returnValue = false);
-
+    if (typeof(this.props.beforePageChange) !== "undefined" &&
+        typeof(this.props.beforePageChange) === "function") {
+      this.props.beforePageChange({selected: selected});
+    }
     if (this.state.selected === selected) return;
-
+    if (this.props.disableNavigation !== "undefined" &&
+        this.props.disableNavigation === true) {
+      return;
+    }
     this.setState({selected: selected});
 
     // Call the callback with the new selected item:
